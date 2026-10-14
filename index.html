@@ -1,162 +1,644 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Galería Virtual Para Vanessa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --text-color: #1e293b;
+            --bg-cream: #fdf8f5;
+            --bg-secondary: #f7ede6;
             --card-bg: #ffffff;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
+            --rose-main: #d87a94;
+            --rose-dark: #be5d78;
+            --rose-soft: #fae8ed;
+            --rose-border: #f0d5dd;
+            --text-main: #4a3439;
+            --text-muted: #8c6f76;
+            --shadow-warm: 0 10px 25px -5px rgba(180, 110, 130, 0.12);
         }
 
-        * { box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 50px; }
-        
-        /* CABECERA Y BUSCADOR */
-        header { text-align: center; padding: 40px 20px 20px; background: var(--card-bg); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
-        h1 { margin: 0; font-size: 2.5rem; font-weight: 600; color: var(--accent); letter-spacing: -0.5px; }
-        p.subtitle { color: #64748b; margin-top: 5px; font-size: 1.1rem; }
-        
-        .controles-superior { max-width: 600px; margin: 25px auto 10px; display: flex; flex-direction: column; gap: 15px; }
-        .buscador { width: 100%; padding: 12px 20px; border: 2px solid #e2e8f0; border-radius: 30px; font-family: 'Poppins', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.3s; }
-        .buscador:focus { border-color: var(--accent); }
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* PESTAÑAS (TABS) */
-        .tabs { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-        .tab-btn { background: #e2e8f0; border: none; padding: 10px 25px; border-radius: 30px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 1rem; color: #475569; cursor: pointer; transition: all 0.3s ease; }
-        .tab-btn:hover { background: #cbd5e1; }
-        .tab-btn.activo { background: var(--accent); color: white; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(circle at top, #fffafa 0%, var(--bg-cream) 50%, var(--bg-secondary) 100%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            padding-bottom: calc(60px + env(safe-area-inset-bottom));
+        }
+
+        /* CABECERA ESTILO ÁLBUM DE EMBARAZO */
+        header {
+            text-align: center;
+            padding: calc(35px + env(safe-area-inset-top)) 20px 30px;
+            background: linear-gradient(180deg, #fff5f7 0%, #fffcf9 100%);
+            border-bottom: 2px solid var(--rose-border);
+            box-shadow: 0 4px 20px rgba(216, 122, 148, 0.08);
+        }
+
+        .badge-embarazo {
+            display: inline-block;
+            background: var(--rose-soft);
+            color: var(--rose-dark);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            border: 1px solid var(--rose-border);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.15;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin: 8px 0 0;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* CONTROLES: BUSCADOR Y PESTAÑAS */
+        .controles-superior {
+            max-width: 550px;
+            margin: 24px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .buscador {
+            width: 100%;
+            padding: 13px 20px;
+            border: 2px solid var(--rose-border);
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 16px; /* Evita el zoom automático en Safari iPhone */
+            color: var(--text-main);
+            background: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .buscador::placeholder {
+            color: #b89ea5;
+        }
+
+        .buscador:focus {
+            border-color: var(--rose-main);
+            box-shadow: 0 0 0 4px rgba(216, 122, 148, 0.15);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: #fff;
+            border: 2px solid var(--rose-border);
+            padding: 12px 18px;
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .tab-btn.activo {
+            background: var(--rose-main);
+            border-color: var(--rose-main);
+            color: #ffffff;
+            box-shadow: 0 6px 15px rgba(216, 122, 148, 0.35);
+        }
+
+        .tab-btn:active {
+            transform: scale(0.96);
+        }
 
         /* SPINNER DE CARGA */
-        .loader-container { display: flex; justify-content: center; align-items: center; min-height: 200px; }
-        .loader { border: 4px solid #e2e8f0; border-top: 4px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* GALERÍA */
-        #galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 30px 20px; max-width: 1200px; margin: 0 auto; }
-        
-        /* ANIMACIÓN DE ENTRADA PARA LAS TARJETAS */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 220px;
+            gap: 15px;
+            color: var(--text-muted);
+            font-weight: 600;
         }
 
-        .foto-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; position: relative; animation: fadeUp 0.5s ease forwards; }
-        .foto-card:hover { transform: translateY(-7px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); }
-        .foto-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
-        
-        .icono-video { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; backdrop-filter: blur(4px); }
-        .foto-info { padding: 15px 20px; text-align: center; font-size: 0.95rem; font-weight: 500; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-top: 1px solid #f1f5f9; }
+        .loader {
+            border: 4px solid var(--rose-soft);
+            border-top: 4px solid var(--rose-main);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* CUADRÍCULA DE LA GALERÍA */
+        #galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .foto-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--rose-border);
+            box-shadow: var(--shadow-warm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (hover: hover) {
+            .foto-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 16px 30px -5px rgba(180, 110, 130, 0.22);
+            }
+        }
+
+        .contenedor-media {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: var(--rose-soft);
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contenedor-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        /* Tarjeta visual para Audios o Vídeos sin miniatura */
+        .placeholder-media {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fce8ed 0%, #f7d6e0 100%);
+            color: var(--rose-dark);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .placeholder-media span.icono-grande {
+            font-size: 3.5rem;
+            margin-bottom: 8px;
+        }
+
+        .placeholder-media span.texto-media {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .etiqueta-tipo {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(74, 52, 57, 0.75);
+            color: #ffffff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            pointer-events: none;
+        }
+
+        /* PARTE INFERIOR DE LA TARJETA (TÍTULO Y BOTÓN DESCARGAR) */
+        .card-body {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fffcf9;
+            border-top: 1px solid var(--rose-soft);
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .foto-info {
+            text-align: center;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .acciones-card {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-ver, .btn-descargar {
+            flex: 1;
+            padding: 9px 10px;
+            border-radius: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ver {
+            background: var(--rose-soft);
+            color: var(--rose-dark);
+        }
+
+        .btn-descargar {
+            background: var(--rose-main);
+            color: #ffffff;
+            box-shadow: 0 3px 10px rgba(216, 122, 148, 0.3);
+        }
+
+        .btn-ver:active, .btn-descargar:active {
+            transform: scale(0.95);
+        }
 
         /* BOTÓN CARGAR MÁS */
-        .contenedor-boton { text-align: center; margin-top: 10px; display: none; }
-        .btn-cargar-mas { background: var(--accent); color: white; border: none; padding: 12px 35px; border-radius: 30px; font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: background 0.3s, transform 0.2s; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2); }
-        .btn-cargar-mas:hover { background: var(--accent-hover); transform: scale(1.05); }
-        .btn-cargar-mas:active { transform: scale(0.95); }
-        .mensaje-vacio { text-align: center; color: #64748b; font-size: 1.1rem; padding: 40px; grid-column: 1 / -1; }
+        .contenedor-boton {
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+            padding: 0 20px;
+        }
 
-        /* LIGHTBOX */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); z-index: 1000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
-        #lightbox.visible { display: flex; opacity: 1; }
-        #lightbox img { max-width: 90%; max-height: 90vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); object-fit: contain; }
-        #lightbox iframe { width: 85%; height: 85vh; border: none; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); background: black; }
-        #lightbox .cerrar { position: absolute; top: 25px; right: 35px; color: white; font-size: 45px; cursor: pointer; transition: color 0.2s, transform 0.2s; z-index: 1001; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        #lightbox .cerrar:hover { color: #ef4444; transform: scale(1.1); }
+        .btn-cargar-mas {
+            background: var(--rose-main);
+            color: white;
+            border: none;
+            padding: 15px 42px;
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(216, 122, 148, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-cargar-mas:active {
+            transform: scale(0.96);
+            background: var(--rose-dark);
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 50px 20px;
+            grid-column: 1 / -1;
+        }
+
+        /* VISOR A PANTALLA COMPLETA (LIGHTBOX) */
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh;
+            background: rgba(45, 28, 33, 0.95);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: calc(65px + env(safe-area-inset-top)) 15px calc(90px + env(safe-area-inset-bottom));
+        }
+
+        #lightbox.visible {
+            display: flex;
+        }
+
+        #lightbox img {
+            max-width: 95%;
+            max-height: 72dvh;
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+            object-fit: contain;
+            border: 2px solid var(--rose-border);
+        }
+
+        #lightbox iframe {
+            width: 92%;
+            max-width: 850px;
+            height: 68dvh;
+            border: 2px solid var(--rose-border);
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+            background: #1a1114;
+        }
+
+        .btn-cerrar-lightbox {
+            position: absolute;
+            top: calc(18px + env(safe-area-inset-top));
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 1002;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .btn-descarga-lightbox {
+            position: absolute;
+            bottom: calc(25px + env(safe-area-inset-bottom));
+            background: var(--rose-main);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(216, 122, 148, 0.5);
+            z-index: 1002;
+        }
+
+        /* =========================================================
+           OPTIMIZACIÓN PARA iPHONE 17 PRO MAX Y PANTALLAS MÓVILES
+           ========================================================= */
+        @media (max-width: 600px) {
+            header {
+                padding: calc(20px + env(safe-area-inset-top)) 15px 20px;
+            }
+            h1 {
+                font-size: 2.1rem;
+            }
+            p.subtitle {
+                font-size: 0.95rem;
+            }
+            .tab-btn {
+                padding: 11px 12px;
+                font-size: 0.88rem;
+            }
+
+            /* Cuadrícula de 2 columnas en el iPhone */
+            #galeria {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 18px 12px;
+            }
+
+            .foto-card {
+                border-radius: 16px;
+            }
+
+            .contenedor-media {
+                height: 175px;
+            }
+
+            .etiqueta-tipo {
+                top: 8px;
+                left: 8px;
+                padding: 4px 9px;
+                font-size: 0.7rem;
+            }
+
+            .card-body {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .foto-info {
+                font-size: 0.82rem;
+            }
+
+            .acciones-card {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .btn-ver, .btn-descargar {
+                width: 100%;
+                padding: 8px 6px;
+                font-size: 0.8rem;
+                border-radius: 10px;
+            }
+
+            .btn-cargar-mas {
+                width: 100%;
+                max-width: 340px;
+            }
+
+            #lightbox iframe {
+                width: 96%;
+                height: 55dvh;
+            }
+
+            .btn-descarga-lightbox {
+                width: 88%;
+                max-width: 320px;
+                justify-content: center;
+                padding: 15px 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
+        <div class="badge-embarazo">✨ Dulce Espera ✨</div>
         <h1>Galería Virtual Para Vanessa</h1>
-        <p class="subtitle">Tus recuerdos favoritos</p>
+        <p class="subtitle">Un rincón lleno de amor y recuerdos</p>
         
-        <div class="controles-superior" style="display: none;" id="controles">
-            <input type="text" id="buscador" class="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarPorBusqueda()">
+        <div class="controles-superior">
+            <input type="text" id="buscador" class="buscador" placeholder="🌸 Buscar recuerdo por nombre..." oninput="filtrarPorBusqueda()">
             
             <div class="tabs">
-                <button class="tab-btn activo" id="tab-fotos" onclick="cambiarPestana('fotos')">Fotografías</button>
-                <button class="tab-btn" id="tab-videos" onclick="cambiarPestana('videos')">Vídeos</button>
+                <button class="tab-btn activo" id="tab-fotos" onclick="cambiarPestana('fotos')">🤰 Fotografías</button>
+                <button class="tab-btn" id="tab-videos" onclick="cambiarPestana('videos')">🎬 Vídeos y Audios</button>
             </div>
         </div>
     </header>
 
     <div class="loader-container" id="cargando">
         <div class="loader"></div>
+        <span>Cargando recuerdos...</span>
     </div>
 
     <div id="galeria"></div>
 
     <div class="contenedor-boton" id="contenedor-cargar-mas">
-        <button class="btn-cargar-mas" onclick="cargarMasArchivos()">Cargar más</button>
+        <button class="btn-cargar-mas" onclick="cargarMasArchivos()">Ver más recuerdos ✨</button>
     </div>
 
-    <div id="lightbox">
-        <span class="cerrar" onclick="cerrarLightbox()">&times;</span>
-        <img id="lightbox-img" src="" alt="Foto ampliada" style="display:none;">
+    <!-- Visor a pantalla completa -->
+    <div id="lightbox" onclick="cerrarSiTocaFondo(event)">
+        <button class="btn-cerrar-lightbox" onclick="cerrarLightbox()">✕ Cerrar</button>
+        
+        <img id="lightbox-img" src="" alt="Recuerdo ampliado" style="display:none;">
         <iframe id="lightbox-video" src="" allow="autoplay" allowfullscreen style="display:none;"></iframe>
+        
+        <a id="lightbox-descarga" class="btn-descarga-lightbox" href="" target="_blank" rel="noopener noreferrer" download>
+            ⬇ Descargar archivo original
+        </a>
     </div>
 
     <script>
         const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbyPwD_Uxww7sllHhKebb0UyM71ERVNep_VNlBqzIgAKEGPB_ZKXextdV0AnQ5-HB9fW-A/exec';
         
-        // Variables globales para gestionar los datos
         let todosLosArchivos = [];
         let archivosFiltrados = [];
         let pestanaActual = 'fotos';
         let indiceCarga = 0;
-        const ITEMS_POR_PAGINA = 12; // Cuántos elementos cargan cada vez que das al botón
+        const ITEMS_POR_PAGINA = 12;
+
+        // Extrae el ID de Google Drive de forma segura aunque el script no lo envíe directo
+        function extraerId(archivo) {
+            if (archivo.id) return archivo.id;
+            const textoUrl = (archivo.urlMiniatura || '') + ' ' + (archivo.urlCompleta || '');
+            const matchIdParam = textoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (matchIdParam) return matchIdParam[1];
+            const matchSlash = textoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (matchSlash) return matchSlash[1];
+            return '';
+        }
+
+        // Detecta si un archivo es Audio por su nombre o propiedades
+        function detectarSiEsAudio(archivo) {
+            const nombre = (archivo.name || '').toLowerCase();
+            const extAudio = ['.mp3', '.m4a', '.wav', '.ogg', '.aac', '.flac', '.opus', '.wma', '.amr'];
+            if (extAudio.some(ext => nombre.endsWith(ext))) return true;
+            if (nombre.includes('audio') || nombre.includes('ptt-') || nombre.includes('aud-')) return true;
+            if (archivo.mimeType && archivo.mimeType.indexOf('audio') > -1) return true;
+            return false;
+        }
+
+        // Detecta si un archivo es Vídeo por su nombre o por el indicador del script
+        function detectarSiEsVideo(archivo) {
+            if (archivo.esVideo === true) return true;
+            const nombre = (archivo.name || '').toLowerCase();
+            const extVideo = ['.mp4', '.mov', '.avi', '.mkv', '.webm', '.3gp', '.m4v'];
+            if (extVideo.some(ext => nombre.endsWith(ext))) return true;
+            if (archivo.mimeType && archivo.mimeType.indexOf('video') > -1) return true;
+            return false;
+        }
 
         async function inicializarGaleria() {
             try {
                 const respuesta = await fetch(URL_APPS_SCRIPT);
-                todosLosArchivos = await respuesta.json();
+                const datosBrutos = await respuesta.json();
                 
-                document.getElementById('cargando').style.display = 'none';
-                document.getElementById('controles').style.display = 'flex';
-                
-                // Actualizar textos de los botones con la cantidad de archivos
-                const cantFotos = todosLosArchivos.filter(a => !a.esVideo).length;
-                const cantVideos = todosLosArchivos.filter(a => a.esVideo).length;
-                document.getElementById('tab-fotos').innerText = `Fotografías (${cantFotos})`;
-                document.getElementById('tab-videos').innerText = `Vídeos (${cantVideos})`;
+                // Procesamos todos los archivos para clasificar fotos, vídeos y audios sin fallos
+                todosLosArchivos = datosBrutos.map(archivo => {
+                    const id = extraerId(archivo);
+                    const esAudio = detectarSiEsAudio(archivo);
+                    const esVideo = detectarSiEsVideo(archivo);
+                    const esMultimedia = esAudio || esVideo; // Ambos van a la pestaña de Vídeos y Audios
 
-                // Cargar la pestaña por defecto
+                    return {
+                        id: id,
+                        name: archivo.name || 'Recuerdo',
+                        esAudio: esAudio,
+                        esVideo: esVideo,
+                        esMultimedia: esMultimedia,
+                        urlMiniatura: archivo.urlMiniatura || `https://drive.google.com/thumbnail?id=${id}&sz=w500`,
+                        // Si es vídeo o audio, usamos el reproductor /preview de Google Drive
+                        urlCompleta: esMultimedia 
+                            ? `https://drive.google.com/file/d/${id}/preview`
+                            : (archivo.urlCompleta || `https://drive.google.com/thumbnail?id=${id}&sz=w2000`),
+                        urlDescarga: `https://drive.google.com/uc?export=download&id=${id}`
+                    };
+                });
+
+                document.getElementById('cargando').style.display = 'none';
+                
+                const cantFotos = todosLosArchivos.filter(a => !a.esMultimedia).length;
+                const cantVideosAudios = todosLosArchivos.filter(a => a.esMultimedia).length;
+                
+                document.getElementById('tab-fotos').innerText = `🤰 Fotos (${cantFotos})`;
+                document.getElementById('tab-videos').innerText = `🎬 Vídeos y Audios (${cantVideosAudios})`;
+
                 aplicarFiltros();
             } catch (error) {
                 console.error("Error al cargar:", error);
-                document.getElementById('cargando').innerHTML = "<p style='color: #ef4444; font-weight: 600;'>Error de conexión. Intenta recargar la página.</p>";
+                document.getElementById('cargando').innerHTML = "<p style='color: #be5d78; font-weight: 700; padding: 20px; text-align: center;'>Hubo un problema al conectar con el álbum. Por favor, recarga la página.</p>";
             }
         }
 
         function cambiarPestana(tipo) {
             pestanaActual = tipo;
-            
-            // Cambiar estilos de los botones
             document.getElementById('tab-fotos').classList.toggle('activo', tipo === 'fotos');
             document.getElementById('tab-videos').classList.toggle('activo', tipo === 'videos');
-            
-            // Limpiar buscador y resetear
             document.getElementById('buscador').value = '';
             aplicarFiltros();
         }
 
         function filtrarPorBusqueda() {
-            aplicarFiltros(document.getElementById('buscador').value.toLowerCase());
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            aplicarFiltros(texto);
         }
 
         function aplicarFiltros(textoBusqueda = '') {
-            // Filtrar por pestaña (foto o video)
             let archivosBase = todosLosArchivos.filter(archivo => 
-                pestanaActual === 'videos' ? archivo.esVideo : !archivo.esVideo
+                pestanaActual === 'videos' ? archivo.esMultimedia : !archivo.esMultimedia
             );
 
-            // Filtrar por texto si hay búsqueda
             if (textoBusqueda.trim() !== '') {
                 archivosBase = archivosBase.filter(archivo => 
                     archivo.name.toLowerCase().includes(textoBusqueda)
@@ -164,11 +646,8 @@
             }
 
             archivosFiltrados = archivosBase;
-            
-            // Resetear la galería
             document.getElementById('galeria').innerHTML = '';
             indiceCarga = 0;
-            
             cargarMasArchivos();
         }
 
@@ -177,7 +656,7 @@
             const limiteVisual = Math.min(indiceCarga + ITEMS_POR_PAGINA, archivosFiltrados.length);
 
             if (archivosFiltrados.length === 0) {
-                contenedor.innerHTML = `<div class="mensaje-vacio">No se encontraron archivos.</div>`;
+                contenedor.innerHTML = `<div class="mensaje-vacio">No hay recuerdos en esta sección todavía 🌸</div>`;
                 document.getElementById('contenedor-cargar-mas').style.display = 'none';
                 return;
             }
@@ -186,35 +665,85 @@
                 const archivo = archivosFiltrados[i];
                 const card = document.createElement('div');
                 card.className = 'foto-card';
-                // Añadimos un pequeño retraso a la animación para que aparezcan en cascada
-                card.style.animationDelay = `${(i % ITEMS_POR_PAGINA) * 0.05}s`;
-                
-                const img = document.createElement('img');
-                img.src = archivo.urlMiniatura; 
-                img.alt = archivo.name;
-                img.loading = 'lazy'; 
-                
-                if (archivo.esVideo) {
-                    const cartelVideo = document.createElement('div');
-                    cartelVideo.className = 'icono-video';
-                    cartelVideo.innerText = '▶ Vídeo';
-                    card.appendChild(cartelVideo);
+
+                // Zona superior de imagen o icono de audio/vídeo
+                const contenedorMedia = document.createElement('div');
+                contenedorMedia.className = 'contenedor-media';
+                contenedorMedia.onclick = () => abrirLightbox(archivo);
+
+                if (archivo.esAudio) {
+                    // Si es un audio, mostramos una tarjeta decorada en lugar de una imagen rota
+                    contenedorMedia.innerHTML = `
+                        <div class="placeholder-media">
+                            <span class="icono-grande">🎵</span>
+                            <span class="texto-media">Toca para escuchar</span>
+                        </div>
+                        <div class="etiqueta-tipo">🎵 Audio</div>
+                    `;
+                } else {
+                    const img = document.createElement('img');
+                    img.src = archivo.urlMiniatura;
+                    img.alt = archivo.name;
+                    img.loading = 'lazy';
+
+                    // Si alguna miniatura de vídeo o foto no carga en Drive, ponemos un diseño bonito
+                    img.onerror = function() {
+                        contenedorMedia.innerHTML = `
+                            <div class="placeholder-media">
+                                <span class="icono-grande">${archivo.esVideo ? '🎬' : '🤰'}</span>
+                                <span class="texto-media">${archivo.esVideo ? 'Toca para reproducir' : 'Toca para abrir'}</span>
+                            </div>
+                            <div class="etiqueta-tipo">${archivo.esVideo ? '▶ Vídeo' : '🌸 Foto'}</div>
+                        `;
+                    };
+
+                    contenedorMedia.appendChild(img);
+
+                    if (archivo.esVideo) {
+                        const etiqueta = document.createElement('div');
+                        etiqueta.className = 'etiqueta-tipo';
+                        etiqueta.innerText = '▶ Vídeo';
+                        contenedorMedia.appendChild(etiqueta);
+                    }
                 }
-                
-                card.onclick = () => abrirLightbox(archivo.urlCompleta, archivo.esVideo);
+
+                // Cuerpo inferior con el nombre y los botones de Ver y Descargar
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
 
                 const info = document.createElement('div');
                 info.className = 'foto-info';
-                info.innerText = archivo.name.split('.')[0]; 
+                info.innerText = archivo.name.replace(/\.[^/.]+$/, ""); // Quita la extensión (.jpg, .mp3, etc.)
 
-                card.appendChild(img);
-                card.appendChild(info);
+                const acciones = document.createElement('div');
+                acciones.className = 'acciones-card';
+
+                const btnVer = document.createElement('button');
+                btnVer.className = 'btn-ver';
+                btnVer.innerText = archivo.esAudio ? '▶ Escuchar' : (archivo.esVideo ? '▶ Ver vídeo' : '🔍 Ampliar');
+                btnVer.onclick = () => abrirLightbox(archivo);
+
+                const btnDescargar = document.createElement('a');
+                btnDescargar.className = 'btn-descargar';
+                btnDescargar.href = archivo.urlDescarga;
+                btnDescargar.target = '_blank';
+                btnDescargar.rel = 'noopener noreferrer';
+                btnDescargar.setAttribute('download', archivo.name);
+                btnDescargar.innerText = '⬇ Descargar';
+
+                acciones.appendChild(btnVer);
+                acciones.appendChild(btnDescargar);
+
+                cardBody.appendChild(info);
+                cardBody.appendChild(acciones);
+
+                card.appendChild(contenedorMedia);
+                card.appendChild(cardBody);
                 contenedor.appendChild(card);
             }
 
             indiceCarga = limiteVisual;
 
-            // Mostrar u ocultar el botón de "Cargar más"
             if (indiceCarga >= archivosFiltrados.length) {
                 document.getElementById('contenedor-cargar-mas').style.display = 'none';
             } else {
@@ -222,34 +751,45 @@
             }
         }
 
-        function abrirLightbox(url, esVideo) {
+        function abrirLightbox(archivo) {
             const img = document.getElementById('lightbox-img');
             const video = document.getElementById('lightbox-video');
+            const btnDescarga = document.getElementById('lightbox-descarga');
             const lightbox = document.getElementById('lightbox');
             
-            if (esVideo) {
+            btnDescarga.href = archivo.urlDescarga;
+
+            if (archivo.esMultimedia) {
                 img.style.display = 'none';
-                video.src = url;
+                video.src = archivo.urlCompleta;
                 video.style.display = 'block';
             } else {
                 video.style.display = 'none';
-                video.src = ""; 
-                img.src = url;
+                video.src = '';
+                img.src = archivo.urlCompleta;
                 img.style.display = 'block';
             }
             
             lightbox.classList.add('visible');
+            document.body.style.overflow = 'hidden';
         }
 
         function cerrarLightbox() {
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.remove('visible');
+            document.body.style.overflow = '';
             setTimeout(() => {
-                document.getElementById('lightbox-video').src = "";
-            }, 300); // Esperar a que acabe la transición para cortar el vídeo
+                document.getElementById('lightbox-video').src = '';
+                document.getElementById('lightbox-img').src = '';
+            }, 200);
         }
 
-        // Arrancar la app
+        function cerrarSiTocaFondo(evento) {
+            if (evento.target.id === 'lightbox') {
+                cerrarLightbox();
+            }
+        }
+
         inicializarGaleria();
     </script>
 </body>
