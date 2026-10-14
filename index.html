@@ -2,135 +2,172 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeria Virtual Para Vanessa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- viewport-fit=cover es clave para aprovechar toda la pantalla del iPhone alrededor de la Dynamic Island -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Galería Virtual Para Vanessa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #f3f4f6;
-            --text-color: #1f2937;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
             --card-bg: #ffffff;
             --accent: #3b82f6;
+            --accent-hover: #2563eb;
         }
 
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; }
-        header { text-align: center; padding: 40px 20px; background: var(--card-bg); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 40px; }
-        h1 { margin: 0; font-size: 2.5rem; font-weight: 600; color: var(--accent); }
-        p.subtitle { color: #6b7280; margin-top: 5px; }
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; /* Quita el recuadro gris al tocar en iPhone */
+        }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            padding: 0;
+            /* Respetar la barra inferior de los iPhone modernos */
+            padding-bottom: calc(50px + env(safe-area-inset-bottom)); 
+        }
+        
+        /* CABECERA Y BUSCADOR */
+        header { 
+            text-align: center; 
+            padding: calc(30px + env(safe-area-inset-top)) 20px 25px; 
+            background: var(--card-bg); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04); 
+        }
+        h1 { margin: 0; font-size: 2.3rem; font-weight: 600; color: var(--accent); letter-spacing: -0.5px; line-height: 1.2; }
+        p.subtitle { color: #64748b; margin-top: 6px; font-size: 1.05rem; margin-bottom: 0; }
+        
+        .controles-superior { max-width: 600px; margin: 22px auto 0; display: flex; flex-direction: column; gap: 15px; }
+        .buscador { 
+            width: 100%; 
+            padding: 12px 20px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 30px; 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 16px; /* 16px exactos evita que Safari en iOS haga zoom automático al escribir */
+            outline: none; 
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #f8fafc;
+        }
+        .buscador:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
 
-        .loader-container { display: flex; justify-content: center; align-items: center; min-height: 200px; }
-        .loader { border: 4px solid #e5e7eb; border-top: 4px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        /* PESTAÑAS (TABS) */
+        .tabs { display: flex; justify-content: center; gap: 10px; }
+        .tab-btn { 
+            flex: 1;
+            max-width: 200px;
+            background: #e2e8f0; 
+            border: none; 
+            padding: 11px 20px; 
+            border-radius: 30px; 
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 500; 
+            font-size: 0.95rem; 
+            color: #475569; 
+            cursor: pointer; 
+            transition: all 0.25s ease; 
+        }
+        .tab-btn.activo { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35); }
+        .tab-btn:active { transform: scale(0.96); }
+
+        /* SPINNER DE CARGA */
+        .loader-container { display: flex; justify-content: center; align-items: center; min-height: 250px; }
+        .loader { border: 4px solid #e2e8f0; border-top: 4px solid var(--accent); border-radius: 50%; width: 48px; height: 48px; animation: spin 0.9s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        #galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 0 20px 50px; max-width: 1200px; margin: 0 auto; }
-        .foto-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease; cursor: pointer; position: relative; }
-        .foto-card:hover { transform: translateY(-7px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); }
-        .foto-card img { width: 100%; height: 280px; object-fit: cover; display: block; }
+        /* GALERÍA (GRID) */
+        #galeria { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            gap: 24px; 
+            padding: 30px 20px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
         
-        /* Icono para identificar los vídeos en la cuadrícula */
-        .icono-video { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .foto-card { 
+            background: var(--card-bg); 
+            border-radius: 16px; 
+            overflow: hidden; 
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.08); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            cursor: pointer; 
+            position: relative; 
+            animation: fadeUp 0.4s ease forwards; 
+            display: flex;
+            flex-direction: column;
+        }
         
-        .foto-info { padding: 15px; text-align: center; font-size: 0.95rem; font-weight: 600; color: #4b5563; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* Efecto hover solo para ordenadores con ratón */
+        @media (hover: hover) {
+            .foto-card:hover { transform: translateY(-6px); box-shadow: 0 18px 25px -5px rgba(0, 0, 0, 0.14); }
+            .btn-descarga-card:hover { background: var(--accent); color: white; transform: scale(1.1); }
+        }
+        .foto-card:active { transform: scale(0.98); }
 
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 1000; justify-content: center; align-items: center; }
-        #lightbox img { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        #lightbox iframe { width: 80%; height: 80vh; border: none; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        #lightbox .cerrar { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; transition: color 0.2s; z-index: 1001; }
-        #lightbox .cerrar:hover { color: var(--accent); }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Galeria Virtual Para Vanessa</h1>
-        <p class="subtitle">Conectada directamente con Google Drive</p>
-    </header>
-
-    <div class="loader-container" id="cargando">
-        <div class="loader"></div>
-    </div>
-
-    <div id="galeria"></div>
-
-    <!-- Lightbox actualizado para soportar vídeos -->
-    <div id="lightbox">
-        <span class="cerrar" onclick="cerrarLightbox()">&times;</span>
-        <img id="lightbox-img" src="" alt="Foto ampliada" style="display:none;">
-        <iframe id="lightbox-video" src="" allow="autoplay" allowfullscreen style="display:none;"></iframe>
-    </div>
-
-    <script>
-        const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbyPwD_Uxww7sllHhKebb0UyM71ERVNep_VNlBqzIgAKEGPB_ZKXextdV0AnQ5-HB9fW-A/exec';
-
-        async function cargarFotos() {
-            try {
-                const respuesta = await fetch(URL_APPS_SCRIPT);
-                const archivos = await respuesta.json();
-                
-                const contenedor = document.getElementById('galeria');
-                document.getElementById('cargando').style.display = 'none';
-
-                archivos.forEach(archivo => {
-                    const card = document.createElement('div');
-                    card.className = 'foto-card';
-                    
-                    const img = document.createElement('img');
-                    img.src = archivo.urlMiniatura; 
-                    img.alt = archivo.name;
-                    img.loading = 'lazy'; 
-                    
-                    // Si es un vídeo, le ponemos un pequeño cartel encima
-                    if (archivo.esVideo) {
-                        const cartelVideo = document.createElement('div');
-                        cartelVideo.className = 'icono-video';
-                        cartelVideo.innerText = '▶ Vídeo';
-                        card.appendChild(cartelVideo);
-                    }
-                    
-                    // Pasamos la URL y si es vídeo o no a la función de abrir
-                    card.onclick = () => abrirLightbox(archivo.urlCompleta, archivo.esVideo);
-
-                    const info = document.createElement('div');
-                    info.className = 'foto-info';
-                    info.innerText = archivo.name.split('.')[0]; 
-
-                    card.appendChild(img);
-                    card.appendChild(info);
-                    contenedor.appendChild(card);
-                });
-            } catch (error) {
-                console.error("Error al cargar:", error);
-                document.getElementById('cargando').innerHTML = "<p style='color: red; font-weight: bold;'>Hubo un error de conexión.</p>";
-            }
+        .contenedor-img { position: relative; width: 100%; height: 250px; background: #e2e8f0; overflow: hidden; }
+        .foto-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        /* Etiquetas y botones flotantes sobre la foto */
+        .icono-video { 
+            position: absolute; top: 12px; left: 12px; 
+            background: rgba(15, 23, 42, 0.75); color: white; 
+            padding: 5px 12px; border-radius: 20px; 
+            font-size: 0.78rem; font-weight: 600; 
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            pointer-events: none;
         }
 
-        // Nueva función para manejar fotos y vídeos por separado
-        function abrirLightbox(url, esVideo) {
-            const img = document.getElementById('lightbox-img');
-            const video = document.getElementById('lightbox-video');
-            const lightbox = document.getElementById('lightbox');
-            
-            if (esVideo) {
-                img.style.display = 'none';
-                video.src = url;
-                video.style.display = 'block';
-            } else {
-                video.style.display = 'none';
-                video.src = ""; // Detiene el vídeo si había uno sonando
-                img.src = url;
-                img.style.display = 'block';
-            }
-            
-            lightbox.style.display = 'flex';
+        .btn-descarga-card {
+            position: absolute; top: 10px; right: 10px;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e293b;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            z-index: 5;
+        }
+        .btn-descarga-card:active { transform: scale(0.9); background: var(--accent); color: white; }
+        .btn-descarga-card svg { width: 20px; height: 20px; }
+        
+        .foto-info { 
+            padding: 12px 15px; 
+            text-align: center; 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            color: #334155; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            border-top: 1px solid #f1f5f9; 
         }
 
-        function cerrarLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-            document.getElementById('lightbox-video').src = ""; // Corta el audio del vídeo al cerrar
+        /* BOTÓN CARGAR MÁS */
+        .contenedor-boton { text-align: center; margin-top: 10px; display: none; padding: 0 20px; }
+        .btn-cargar-mas { 
+            background: var(--accent); color: white; border: none; 
+            padding: 14px 40px; border-radius: 30px; 
+            font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 500; 
+            cursor: pointer; transition: background 0.3s, transform 0.2s; 
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); 
         }
+        .btn-cargar-mas:active { transform: scale(0.96); }
+        .mensaje-vacio { text-align: center; color: #64748b; font-size: 1.1rem; padding: 40px 20px; grid-column: 1 / -1; }
 
-        cargarFotos();
-    </script>
-</body>
-</html>
+        /* LIGHTBOX (VISOR A PANTALLA COMPLETA) */
+        #lightbox { 
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100%; height: 100d
