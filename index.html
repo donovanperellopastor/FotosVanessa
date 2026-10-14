@@ -9,16 +9,17 @@
     
     <style>
         :root {
-            --bg-cream: #fdf8f5;
-            --bg-secondary: #f7ede6;
+            /* Paleta Azul Pastel para Mark */
+            --bg-cream: #f4f8fb;
+            --bg-secondary: #e8f0f6;
             --card-bg: #ffffff;
-            --rose-main: #d87a94;
-            --rose-dark: #be5d78;
-            --rose-soft: #fae8ed;
-            --rose-border: #f0d5dd;
-            --text-main: #4a3439;
-            --text-muted: #8c6f76;
-            --shadow-warm: 0 10px 25px -5px rgba(180, 110, 130, 0.12);
+            --blue-main: #87b3d6;
+            --blue-dark: #5c8cb3;
+            --blue-soft: #ebf3fa;
+            --blue-border: #dce8f2;
+            --text-main: #2e4052;
+            --text-muted: #738799;
+            --shadow-cool: 0 10px 25px -5px rgba(110, 150, 180, 0.12);
         }
 
         * {
@@ -28,7 +29,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: radial-gradient(circle at top, #fffafa 0%, var(--bg-cream) 50%, var(--bg-secondary) 100%);
+            background: radial-gradient(circle at top, #ffffff 0%, var(--bg-cream) 50%, var(--bg-secondary) 100%);
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -36,26 +37,26 @@
             padding-bottom: calc(60px + env(safe-area-inset-bottom));
         }
 
-        /* CABECERA ESTILO ÁLBUM DE EMBARAZO */
+        /* CABECERA ESTILO ÁLBUM */
         header {
             text-align: center;
             padding: calc(35px + env(safe-area-inset-top)) 20px 30px;
-            background: linear-gradient(180deg, #fff5f7 0%, #fffcf9 100%);
-            border-bottom: 2px solid var(--rose-border);
-            box-shadow: 0 4px 20px rgba(216, 122, 148, 0.08);
+            background: linear-gradient(180deg, #f7fbff 0%, #fcfdfe 100%);
+            border-bottom: 2px solid var(--blue-border);
+            box-shadow: 0 4px 20px rgba(135, 179, 214, 0.08);
         }
 
         .badge-embarazo {
             display: inline-block;
-            background: var(--rose-soft);
-            color: var(--rose-dark);
+            background: var(--blue-soft);
+            color: var(--blue-dark);
             padding: 6px 16px;
             border-radius: 30px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             margin-bottom: 12px;
-            border: 1px solid var(--rose-border);
+            border: 1px solid var(--blue-border);
         }
 
         h1 {
@@ -86,10 +87,10 @@
         .buscador {
             width: 100%;
             padding: 13px 20px;
-            border: 2px solid var(--rose-border);
+            border: 2px solid var(--blue-border);
             border-radius: 30px;
             font-family: 'Quicksand', sans-serif;
-            font-size: 16px; /* Evita el zoom automático en Safari iPhone */
+            font-size: 16px; 
             color: var(--text-main);
             background: #ffffff;
             outline: none;
@@ -97,12 +98,12 @@
         }
 
         .buscador::placeholder {
-            color: #b89ea5;
+            color: #9ab0c2;
         }
 
         .buscador:focus {
-            border-color: var(--rose-main);
-            box-shadow: 0 0 0 4px rgba(216, 122, 148, 0.15);
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 4px rgba(135, 179, 214, 0.15);
         }
 
         .tabs {
@@ -114,7 +115,7 @@
         .tab-btn {
             flex: 1;
             background: #fff;
-            border: 2px solid var(--rose-border);
+            border: 2px solid var(--blue-border);
             padding: 12px 18px;
             border-radius: 30px;
             font-family: 'Quicksand', sans-serif;
@@ -126,10 +127,10 @@
         }
 
         .tab-btn.activo {
-            background: var(--rose-main);
-            border-color: var(--rose-main);
+            background: var(--blue-main);
+            border-color: var(--blue-main);
             color: #ffffff;
-            box-shadow: 0 6px 15px rgba(216, 122, 148, 0.35);
+            box-shadow: 0 6px 15px rgba(135, 179, 214, 0.35);
         }
 
         .tab-btn:active {
@@ -149,8 +150,8 @@
         }
 
         .loader {
-            border: 4px solid var(--rose-soft);
-            border-top: 4px solid var(--rose-main);
+            border: 4px solid var(--blue-soft);
+            border-top: 4px solid var(--blue-main);
             border-radius: 50%;
             width: 48px;
             height: 48px;
@@ -176,8 +177,8 @@
             background: var(--card-bg);
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid var(--rose-border);
-            box-shadow: var(--shadow-warm);
+            border: 1px solid var(--blue-border);
+            box-shadow: var(--shadow-cool);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -186,7 +187,7 @@
         @media (hover: hover) {
             .foto-card:hover {
                 transform: translateY(-5px);
-                box-shadow: 0 16px 30px -5px rgba(180, 110, 130, 0.22);
+                box-shadow: 0 16px 30px -5px rgba(110, 150, 180, 0.22);
             }
         }
 
@@ -194,7 +195,7 @@
             position: relative;
             width: 100%;
             height: 250px;
-            background: var(--rose-soft);
+            background: var(--blue-soft);
             cursor: pointer;
             overflow: hidden;
             display: flex;
@@ -218,8 +219,8 @@
             justify-content: center;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #fce8ed 0%, #f7d6e0 100%);
-            color: var(--rose-dark);
+            background: linear-gradient(135deg, #ebf3fa 0%, #d4e5f2 100%);
+            color: var(--blue-dark);
             padding: 20px;
             text-align: center;
         }
@@ -238,7 +239,7 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            background: rgba(74, 52, 57, 0.75);
+            background: rgba(46, 64, 82, 0.75);
             color: #ffffff;
             padding: 5px 12px;
             border-radius: 20px;
@@ -249,14 +250,14 @@
             pointer-events: none;
         }
 
-        /* PARTE INFERIOR DE LA TARJETA (TÍTULO Y BOTÓN DESCARGAR) */
+        /* PARTE INFERIOR DE LA TARJETA */
         .card-body {
             padding: 14px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            background: #fffcf9;
-            border-top: 1px solid var(--rose-soft);
+            background: #fdfefe;
+            border-top: 1px solid var(--blue-soft);
             flex: 1;
             justify-content: space-between;
         }
@@ -295,14 +296,14 @@
         }
 
         .btn-ver {
-            background: var(--rose-soft);
-            color: var(--rose-dark);
+            background: var(--blue-soft);
+            color: var(--blue-dark);
         }
 
         .btn-descargar {
-            background: var(--rose-main);
+            background: var(--blue-main);
             color: #ffffff;
-            box-shadow: 0 3px 10px rgba(216, 122, 148, 0.3);
+            box-shadow: 0 3px 10px rgba(135, 179, 214, 0.3);
         }
 
         .btn-ver:active, .btn-descargar:active {
@@ -318,7 +319,7 @@
         }
 
         .btn-cargar-mas {
-            background: var(--rose-main);
+            background: var(--blue-main);
             color: white;
             border: none;
             padding: 15px 42px;
@@ -327,13 +328,13 @@
             font-size: 1.05rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(216, 122, 148, 0.35);
+            box-shadow: 0 6px 18px rgba(135, 179, 214, 0.35);
             transition: all 0.2s ease;
         }
 
         .btn-cargar-mas:active {
             transform: scale(0.96);
-            background: var(--rose-dark);
+            background: var(--blue-dark);
         }
 
         .mensaje-vacio {
@@ -353,7 +354,7 @@
             left: 0;
             width: 100%;
             height: 100dvh;
-            background: rgba(45, 28, 33, 0.95);
+            background: rgba(30, 42, 54, 0.95);
             z-index: 1000;
             flex-direction: column;
             justify-content: center;
@@ -371,17 +372,17 @@
             border-radius: 14px;
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
             object-fit: contain;
-            border: 2px solid var(--rose-border);
+            border: 2px solid var(--blue-border);
         }
 
         #lightbox iframe {
             width: 92%;
             max-width: 850px;
             height: 68dvh;
-            border: 2px solid var(--rose-border);
+            border: 2px solid var(--blue-border);
             border-radius: 14px;
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
-            background: #1a1114;
+            background: #11171d;
         }
 
         .btn-cerrar-lightbox {
@@ -405,7 +406,7 @@
         .btn-descarga-lightbox {
             position: absolute;
             bottom: calc(25px + env(safe-area-inset-bottom));
-            background: var(--rose-main);
+            background: var(--blue-main);
             color: #ffffff;
             text-decoration: none;
             padding: 14px 32px;
@@ -415,7 +416,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 6px 20px rgba(216, 122, 148, 0.5);
+            box-shadow: 0 6px 20px rgba(135, 179, 214, 0.5);
             z-index: 1002;
         }
 
@@ -437,7 +438,6 @@
                 font-size: 0.88rem;
             }
 
-            /* Cuadrícula de 2 columnas en el iPhone */
             #galeria {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
@@ -502,15 +502,15 @@
 <body>
 
     <header>
-        <div class="badge-embarazo">🍼 Baby Loading...</div>
+        <div class="badge-embarazo">🧸 Mark</div>
         <h1>Galería Virtual Para Vanessa</h1>
         <p class="subtitle">Galería para ver las fotos de la ecografía</p>
         
         <div class="controles-superior">
-            <input type="text" id="buscador" class="buscador" placeholder="🌸 Buscar recuerdo por nombre..." oninput="filtrarPorBusqueda()">
+            <input type="text" id="buscador" class="buscador" placeholder="🍼 Buscar recuerdo por nombre..." oninput="filtrarPorBusqueda()">
             
             <div class="tabs">
-                <button class="tab-btn activo" id="tab-fotos" onclick="cambiarPestana('fotos')">🤰 Fotografías</button>
+                <button class="tab-btn activo" id="tab-fotos" onclick="cambiarPestana('fotos')">👶 Fotografías</button>
                 <button class="tab-btn" id="tab-videos" onclick="cambiarPestana('videos')">🎬 Vídeos</button>
             </div>
         </div>
@@ -518,13 +518,13 @@
 
     <div class="loader-container" id="cargando">
         <div class="loader"></div>
-        <span>Cargando recuerdos...</span>
+        <span>Cargando ecografías...</span>
     </div>
 
     <div id="galeria"></div>
 
     <div class="contenedor-boton" id="contenedor-cargar-mas">
-        <button class="btn-cargar-mas" onclick="cargarMasArchivos()">Ver más recuerdos ✨</button>
+        <button class="btn-cargar-mas" onclick="cargarMasArchivos()">Ver más fotos ✨</button>
     </div>
 
     <!-- Visor a pantalla completa -->
@@ -548,7 +548,6 @@
         let indiceCarga = 0;
         const ITEMS_POR_PAGINA = 12;
 
-        // Extrae el ID de Google Drive de forma segura aunque el script no lo envíe directo
         function extraerId(archivo) {
             if (archivo.id) return archivo.id;
             const textoUrl = (archivo.urlMiniatura || '') + ' ' + (archivo.urlCompleta || '');
@@ -559,7 +558,6 @@
             return '';
         }
 
-        // Detecta si un archivo es Audio por su nombre o propiedades
         function detectarSiEsAudio(archivo) {
             const nombre = (archivo.name || '').toLowerCase();
             const extAudio = ['.mp3', '.m4a', '.wav', '.ogg', '.aac', '.flac', '.opus', '.wma', '.amr'];
@@ -569,7 +567,6 @@
             return false;
         }
 
-        // Detecta si un archivo es Vídeo por su nombre o por el indicador del script
         function detectarSiEsVideo(archivo) {
             if (archivo.esVideo === true) return true;
             const nombre = (archivo.name || '').toLowerCase();
@@ -584,21 +581,19 @@
                 const respuesta = await fetch(URL_APPS_SCRIPT);
                 const datosBrutos = await respuesta.json();
                 
-                // Procesamos todos los archivos para clasificar fotos, vídeos y audios sin fallos
                 todosLosArchivos = datosBrutos.map(archivo => {
                     const id = extraerId(archivo);
                     const esAudio = detectarSiEsAudio(archivo);
                     const esVideo = detectarSiEsVideo(archivo);
-                    const esMultimedia = esAudio || esVideo; // Ambos van a la pestaña de Vídeos y Audios
+                    const esMultimedia = esAudio || esVideo; 
 
                     return {
                         id: id,
-                        name: archivo.name || 'Recuerdo',
+                        name: archivo.name || 'Ecografía',
                         esAudio: esAudio,
                         esVideo: esVideo,
                         esMultimedia: esMultimedia,
                         urlMiniatura: archivo.urlMiniatura || `https://drive.google.com/thumbnail?id=${id}&sz=w500`,
-                        // Si es vídeo o audio, usamos el reproductor /preview de Google Drive
                         urlCompleta: esMultimedia 
                             ? `https://drive.google.com/file/d/${id}/preview`
                             : (archivo.urlCompleta || `https://drive.google.com/thumbnail?id=${id}&sz=w2000`),
@@ -611,13 +606,13 @@
                 const cantFotos = todosLosArchivos.filter(a => !a.esMultimedia).length;
                 const cantVideosAudios = todosLosArchivos.filter(a => a.esMultimedia).length;
                 
-                document.getElementById('tab-fotos').innerText = `🤰 Fotos (${cantFotos})`;
+                document.getElementById('tab-fotos').innerText = `👶 Fotografías (${cantFotos})`;
                 document.getElementById('tab-videos').innerText = `🎬 Vídeos (${cantVideosAudios})`;
 
                 aplicarFiltros();
             } catch (error) {
                 console.error("Error al cargar:", error);
-                document.getElementById('cargando').innerHTML = "<p style='color: #be5d78; font-weight: 700; padding: 20px; text-align: center;'>Hubo un problema al conectar con el álbum. Por favor, recarga la página.</p>";
+                document.getElementById('cargando').innerHTML = "<p style='color: var(--blue-dark); font-weight: 700; padding: 20px; text-align: center;'>Hubo un problema al conectar con el álbum. Por favor, recarga la página.</p>";
             }
         }
 
@@ -656,7 +651,7 @@
             const limiteVisual = Math.min(indiceCarga + ITEMS_POR_PAGINA, archivosFiltrados.length);
 
             if (archivosFiltrados.length === 0) {
-                contenedor.innerHTML = `<div class="mensaje-vacio">No hay recuerdos en esta sección todavía 🌸</div>`;
+                contenedor.innerHTML = `<div class="mensaje-vacio">No hay archivos en esta sección todavía ☁️</div>`;
                 document.getElementById('contenedor-cargar-mas').style.display = 'none';
                 return;
             }
@@ -666,13 +661,11 @@
                 const card = document.createElement('div');
                 card.className = 'foto-card';
 
-                // Zona superior de imagen o icono de audio/vídeo
                 const contenedorMedia = document.createElement('div');
                 contenedorMedia.className = 'contenedor-media';
                 contenedorMedia.onclick = () => abrirLightbox(archivo);
 
                 if (archivo.esAudio) {
-                    // Si es un audio, mostramos una tarjeta decorada en lugar de una imagen rota
                     contenedorMedia.innerHTML = `
                         <div class="placeholder-media">
                             <span class="icono-grande">🎵</span>
@@ -686,14 +679,13 @@
                     img.alt = archivo.name;
                     img.loading = 'lazy';
 
-                    // Si alguna miniatura de vídeo o foto no carga en Drive, ponemos un diseño bonito
                     img.onerror = function() {
                         contenedorMedia.innerHTML = `
                             <div class="placeholder-media">
-                                <span class="icono-grande">${archivo.esVideo ? '🎬' : '🤰'}</span>
+                                <span class="icono-grande">${archivo.esVideo ? '🎬' : '👶'}</span>
                                 <span class="texto-media">${archivo.esVideo ? 'Toca para reproducir' : 'Toca para abrir'}</span>
                             </div>
-                            <div class="etiqueta-tipo">${archivo.esVideo ? '▶ Vídeo' : '🌸 Foto'}</div>
+                            <div class="etiqueta-tipo">${archivo.esVideo ? '▶ Vídeo' : '☁️ Foto'}</div>
                         `;
                     };
 
@@ -707,13 +699,12 @@
                     }
                 }
 
-                // Cuerpo inferior con el nombre y los botones de Ver y Descargar
                 const cardBody = document.createElement('div');
                 cardBody.className = 'card-body';
 
                 const info = document.createElement('div');
                 info.className = 'foto-info';
-                info.innerText = archivo.name.replace(/\.[^/.]+$/, ""); // Quita la extensión (.jpg, .mp3, etc.)
+                info.innerText = archivo.name.replace(/\.[^/.]+$/, ""); 
 
                 const acciones = document.createElement('div');
                 acciones.className = 'acciones-card';
