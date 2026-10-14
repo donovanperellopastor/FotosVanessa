@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,122 +14,30 @@
             --accent: #3b82f6;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; }
+        header { text-align: center; padding: 40px 20px; background: var(--card-bg); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 40px; }
+        h1 { margin: 0; font-size: 2.5rem; font-weight: 600; color: var(--accent); }
+        p.subtitle { color: #6b7280; margin-top: 5px; }
 
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: var(--card-bg);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        p.subtitle {
-            color: #6b7280;
-            margin-top: 5px;
-        }
-
-        .loader-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
-        .loader {
-            border: 4px solid #e5e7eb;
-            border-top: 4px solid var(--accent);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
+        .loader-container { display: flex; justify-content: center; align-items: center; min-height: 200px; }
+        .loader { border: 4px solid #e5e7eb; border-top: 4px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        #galeria {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 0 20px 50px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        #galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 0 20px 50px; max-width: 1200px; margin: 0 auto; }
+        .foto-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease; cursor: pointer; position: relative; }
+        .foto-card:hover { transform: translateY(-7px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); }
+        .foto-card img { width: 100%; height: 280px; object-fit: cover; display: block; }
+        
+        /* Icono para identificar los vídeos en la cuadrícula */
+        .icono-video { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        
+        .foto-info { padding: 15px; text-align: center; font-size: 0.95rem; font-weight: 600; color: #4b5563; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .foto-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .foto-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
-        }
-
-        .foto-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .foto-info {
-            padding: 15px;
-            text-align: center;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #4b5563;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        #lightbox {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #lightbox img {
-            max-width: 90%;
-            max-height: 90vh;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        #lightbox .cerrar {
-            position: absolute;
-            top: 20px; right: 30px;
-            color: white;
-            font-size: 50px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        #lightbox .cerrar:hover {
-            color: var(--accent);
-        }
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 1000; justify-content: center; align-items: center; }
+        #lightbox img { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        #lightbox iframe { width: 80%; height: 80vh; border: none; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        #lightbox .cerrar { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; transition: color 0.2s; z-index: 1001; }
+        #lightbox .cerrar:hover { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -146,57 +53,81 @@
 
     <div id="galeria"></div>
 
-    <div id="lightbox" onclick="cerrarLightbox()">
-        <span class="cerrar">&times;</span>
-        <img id="lightbox-img" src="" alt="Foto ampliada">
+    <!-- Lightbox actualizado para soportar vídeos -->
+    <div id="lightbox">
+        <span class="cerrar" onclick="cerrarLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Foto ampliada" style="display:none;">
+        <iframe id="lightbox-video" src="" allow="autoplay" allowfullscreen style="display:none;"></iframe>
     </div>
 
     <script>
-        // Tu nueva URL de Apps Script
-        const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbxPDaY8yhY39X69BRNuqC2PZWvtkktfAUXgS9DMkEWQZPfkKQBcWAGpjOIBj70uraM1mg/exec';
+        const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbyPwD_Uxww7sllHhKebb0UyM71ERVNep_VNlBqzIgAKEGPB_ZKXextdV0AnQ5-HB9fW-A/exec';
 
         async function cargarFotos() {
             try {
                 const respuesta = await fetch(URL_APPS_SCRIPT);
-                const fotos = await respuesta.json();
+                const archivos = await respuesta.json();
                 
                 const contenedor = document.getElementById('galeria');
                 document.getElementById('cargando').style.display = 'none';
 
-                fotos.forEach(foto => {
+                archivos.forEach(archivo => {
                     const card = document.createElement('div');
                     card.className = 'foto-card';
                     
                     const img = document.createElement('img');
-                    // Usamos la miniatura ligera para la cuadrícula
-                    img.src = foto.urlMiniatura; 
-                    img.alt = foto.name;
+                    img.src = archivo.urlMiniatura; 
+                    img.alt = archivo.name;
                     img.loading = 'lazy'; 
                     
-                    // Al hacer click, le pasamos la URL en alta calidad al Lightbox
-                    card.onclick = () => abrirLightbox(foto.urlCompleta);
+                    // Si es un vídeo, le ponemos un pequeño cartel encima
+                    if (archivo.esVideo) {
+                        const cartelVideo = document.createElement('div');
+                        cartelVideo.className = 'icono-video';
+                        cartelVideo.innerText = '▶ Vídeo';
+                        card.appendChild(cartelVideo);
+                    }
+                    
+                    // Pasamos la URL y si es vídeo o no a la función de abrir
+                    card.onclick = () => abrirLightbox(archivo.urlCompleta, archivo.esVideo);
 
                     const info = document.createElement('div');
                     info.className = 'foto-info';
-                    info.innerText = foto.name.split('.')[0]; 
+                    info.innerText = archivo.name.split('.')[0]; 
 
                     card.appendChild(img);
                     card.appendChild(info);
                     contenedor.appendChild(card);
                 });
             } catch (error) {
-                console.error("Error al cargar las fotos:", error);
-                document.getElementById('cargando').innerHTML = "<p style='color: red; font-weight: bold;'>Hubo un error de conexión. Asegúrate de haber publicado la nueva versión del script.</p>";
+                console.error("Error al cargar:", error);
+                document.getElementById('cargando').innerHTML = "<p style='color: red; font-weight: bold;'>Hubo un error de conexión.</p>";
             }
         }
 
-        function abrirLightbox(url) {
-            document.getElementById('lightbox-img').src = url;
-            document.getElementById('lightbox').style.display = 'flex';
+        // Nueva función para manejar fotos y vídeos por separado
+        function abrirLightbox(url, esVideo) {
+            const img = document.getElementById('lightbox-img');
+            const video = document.getElementById('lightbox-video');
+            const lightbox = document.getElementById('lightbox');
+            
+            if (esVideo) {
+                img.style.display = 'none';
+                video.src = url;
+                video.style.display = 'block';
+            } else {
+                video.style.display = 'none';
+                video.src = ""; // Detiene el vídeo si había uno sonando
+                img.src = url;
+                img.style.display = 'block';
+            }
+            
+            lightbox.style.display = 'flex';
         }
 
         function cerrarLightbox() {
             document.getElementById('lightbox').style.display = 'none';
+            document.getElementById('lightbox-video').src = ""; // Corta el audio del vídeo al cerrar
         }
 
         cargarFotos();
