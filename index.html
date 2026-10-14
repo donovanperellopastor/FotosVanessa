@@ -502,16 +502,16 @@
 <body>
 
     <header>
-        <div class="badge-embarazo">✨ Dulce Espera ✨</div>
+        <div class="badge-embarazo">🍼 Baby Loading...</div>
         <h1>Galería Virtual Para Vanessa</h1>
-        <p class="subtitle">Un rincón lleno de amor y recuerdos</p>
+        <p class="subtitle">Galería para ver las fotos de la ecografía</p>
         
         <div class="controles-superior">
             <input type="text" id="buscador" class="buscador" placeholder="🌸 Buscar recuerdo por nombre..." oninput="filtrarPorBusqueda()">
             
             <div class="tabs">
                 <button class="tab-btn activo" id="tab-fotos" onclick="cambiarPestana('fotos')">🤰 Fotografías</button>
-                <button class="tab-btn" id="tab-videos" onclick="cambiarPestana('videos')">🎬 Vídeos y Audios</button>
+                <button class="tab-btn" id="tab-videos" onclick="cambiarPestana('videos')">🎬 Vídeos</button>
             </div>
         </div>
     </header>
@@ -612,7 +612,7 @@
                 const cantVideosAudios = todosLosArchivos.filter(a => a.esMultimedia).length;
                 
                 document.getElementById('tab-fotos').innerText = `🤰 Fotos (${cantFotos})`;
-                document.getElementById('tab-videos').innerText = `🎬 Vídeos y Audios (${cantVideosAudios})`;
+                document.getElementById('tab-videos').innerText = `🎬 Vídeos (${cantVideosAudios})`;
 
                 aplicarFiltros();
             } catch (error) {
@@ -794,3 +794,5 @@
     </script>
 </body>
 </html>
+
+
