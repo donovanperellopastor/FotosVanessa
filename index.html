@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- viewport-fit=cover es clave para aprovechar toda la pantalla del iPhone alrededor de la Dynamic Island -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería Virtual Para Vanessa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -16,158 +15,250 @@
             --accent-hover: #2563eb;
         }
 
-        * { 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; /* Quita el recuadro gris al tocar en iPhone */
-        }
-        
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
-            margin: 0; 
-            padding: 0;
-            /* Respetar la barra inferior de los iPhone modernos */
-            padding-bottom: calc(50px + env(safe-area-inset-bottom)); 
-        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 50px; }
         
         /* CABECERA Y BUSCADOR */
-        header { 
-            text-align: center; 
-            padding: calc(30px + env(safe-area-inset-top)) 20px 25px; 
-            background: var(--card-bg); 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04); 
-        }
-        h1 { margin: 0; font-size: 2.3rem; font-weight: 600; color: var(--accent); letter-spacing: -0.5px; line-height: 1.2; }
-        p.subtitle { color: #64748b; margin-top: 6px; font-size: 1.05rem; margin-bottom: 0; }
+        header { text-align: center; padding: 40px 20px 20px; background: var(--card-bg); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+        h1 { margin: 0; font-size: 2.5rem; font-weight: 600; color: var(--accent); letter-spacing: -0.5px; }
+        p.subtitle { color: #64748b; margin-top: 5px; font-size: 1.1rem; }
         
-        .controles-superior { max-width: 600px; margin: 22px auto 0; display: flex; flex-direction: column; gap: 15px; }
-        .buscador { 
-            width: 100%; 
-            padding: 12px 20px; 
-            border: 2px solid #e2e8f0; 
-            border-radius: 30px; 
-            font-family: 'Poppins', sans-serif; 
-            font-size: 16px; /* 16px exactos evita que Safari en iOS haga zoom automático al escribir */
-            outline: none; 
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background: #f8fafc;
-        }
-        .buscador:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .controles-superior { max-width: 600px; margin: 25px auto 10px; display: flex; flex-direction: column; gap: 15px; }
+        .buscador { width: 100%; padding: 12px 20px; border: 2px solid #e2e8f0; border-radius: 30px; font-family: 'Poppins', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+        .buscador:focus { border-color: var(--accent); }
 
         /* PESTAÑAS (TABS) */
-        .tabs { display: flex; justify-content: center; gap: 10px; }
-        .tab-btn { 
-            flex: 1;
-            max-width: 200px;
-            background: #e2e8f0; 
-            border: none; 
-            padding: 11px 20px; 
-            border-radius: 30px; 
-            font-family: 'Poppins', sans-serif; 
-            font-weight: 500; 
-            font-size: 0.95rem; 
-            color: #475569; 
-            cursor: pointer; 
-            transition: all 0.25s ease; 
-        }
-        .tab-btn.activo { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35); }
-        .tab-btn:active { transform: scale(0.96); }
+        .tabs { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .tab-btn { background: #e2e8f0; border: none; padding: 10px 25px; border-radius: 30px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 1rem; color: #475569; cursor: pointer; transition: all 0.3s ease; }
+        .tab-btn:hover { background: #cbd5e1; }
+        .tab-btn.activo { background: var(--accent); color: white; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
 
         /* SPINNER DE CARGA */
-        .loader-container { display: flex; justify-content: center; align-items: center; min-height: 250px; }
-        .loader { border: 4px solid #e2e8f0; border-top: 4px solid var(--accent); border-radius: 50%; width: 48px; height: 48px; animation: spin 0.9s linear infinite; }
+        .loader-container { display: flex; justify-content: center; align-items: center; min-height: 200px; }
+        .loader { border: 4px solid #e2e8f0; border-top: 4px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* GALERÍA (GRID) */
-        #galeria { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-            gap: 24px; 
-            padding: 30px 20px; 
-            max-width: 1200px; 
-            margin: 0 auto; 
-        }
+        /* GALERÍA */
+        #galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 30px 20px; max-width: 1200px; margin: 0 auto; }
         
+        /* ANIMACIÓN DE ENTRADA PARA LAS TARJETAS */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .foto-card { 
-            background: var(--card-bg); 
-            border-radius: 16px; 
-            overflow: hidden; 
-            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.08); 
-            transition: transform 0.3s ease, box-shadow 0.3s ease; 
-            cursor: pointer; 
-            position: relative; 
-            animation: fadeUp 0.4s ease forwards; 
-            display: flex;
-            flex-direction: column;
-        }
+        .foto-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; position: relative; animation: fadeUp 0.5s ease forwards; }
+        .foto-card:hover { transform: translateY(-7px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); }
+        .foto-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
         
-        /* Efecto hover solo para ordenadores con ratón */
-        @media (hover: hover) {
-            .foto-card:hover { transform: translateY(-6px); box-shadow: 0 18px 25px -5px rgba(0, 0, 0, 0.14); }
-            .btn-descarga-card:hover { background: var(--accent); color: white; transform: scale(1.1); }
-        }
-        .foto-card:active { transform: scale(0.98); }
-
-        .contenedor-img { position: relative; width: 100%; height: 250px; background: #e2e8f0; overflow: hidden; }
-        .foto-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        
-        /* Etiquetas y botones flotantes sobre la foto */
-        .icono-video { 
-            position: absolute; top: 12px; left: 12px; 
-            background: rgba(15, 23, 42, 0.75); color: white; 
-            padding: 5px 12px; border-radius: 20px; 
-            font-size: 0.78rem; font-weight: 600; 
-            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-            pointer-events: none;
-        }
-
-        .btn-descarga-card {
-            position: absolute; top: 10px; right: 10px;
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            color: #1e293b;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            z-index: 5;
-        }
-        .btn-descarga-card:active { transform: scale(0.9); background: var(--accent); color: white; }
-        .btn-descarga-card svg { width: 20px; height: 20px; }
-        
-        .foto-info { 
-            padding: 12px 15px; 
-            text-align: center; 
-            font-size: 0.9rem; 
-            font-weight: 500; 
-            color: #334155; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-            border-top: 1px solid #f1f5f9; 
-        }
+        .icono-video { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; backdrop-filter: blur(4px); }
+        .foto-info { padding: 15px 20px; text-align: center; font-size: 0.95rem; font-weight: 500; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-top: 1px solid #f1f5f9; }
 
         /* BOTÓN CARGAR MÁS */
-        .contenedor-boton { text-align: center; margin-top: 10px; display: none; padding: 0 20px; }
-        .btn-cargar-mas { 
-            background: var(--accent); color: white; border: none; 
-            padding: 14px 40px; border-radius: 30px; 
-            font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 500; 
-            cursor: pointer; transition: background 0.3s, transform 0.2s; 
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); 
-        }
-        .btn-cargar-mas:active { transform: scale(0.96); }
-        .mensaje-vacio { text-align: center; color: #64748b; font-size: 1.1rem; padding: 40px 20px; grid-column: 1 / -1; }
+        .contenedor-boton { text-align: center; margin-top: 10px; display: none; }
+        .btn-cargar-mas { background: var(--accent); color: white; border: none; padding: 12px 35px; border-radius: 30px; font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: background 0.3s, transform 0.2s; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2); }
+        .btn-cargar-mas:hover { background: var(--accent-hover); transform: scale(1.05); }
+        .btn-cargar-mas:active { transform: scale(0.95); }
+        .mensaje-vacio { text-align: center; color: #64748b; font-size: 1.1rem; padding: 40px; grid-column: 1 / -1; }
 
-        /* LIGHTBOX (VISOR A PANTALLA COMPLETA) */
-        #lightbox { 
-            display: none; position: fixed; top: 0; left: 0; 
-            width: 100%; height: 100d
+        /* LIGHTBOX */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); z-index: 1000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        #lightbox.visible { display: flex; opacity: 1; }
+        #lightbox img { max-width: 90%; max-height: 90vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); object-fit: contain; }
+        #lightbox iframe { width: 85%; height: 85vh; border: none; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); background: black; }
+        #lightbox .cerrar { position: absolute; top: 25px; right: 35px; color: white; font-size: 45px; cursor: pointer; transition: color 0.2s, transform 0.2s; z-index: 1001; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        #lightbox .cerrar:hover { color: #ef4444; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Galería Virtual Para Vanessa</h1>
+        <p class="subtitle">Tus recuerdos favoritos</p>
+        
+        <div class="controles-superior" style="display: none;" id="controles">
+            <input type="text" id="buscador" class="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarPorBusqueda()">
+            
+            <div class="tabs">
+                <button class="tab-btn activo" id="tab-fotos" onclick="cambiarPestana('fotos')">Fotografías</button>
+                <button class="tab-btn" id="tab-videos" onclick="cambiarPestana('videos')">Vídeos</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="loader-container" id="cargando">
+        <div class="loader"></div>
+    </div>
+
+    <div id="galeria"></div>
+
+    <div class="contenedor-boton" id="contenedor-cargar-mas">
+        <button class="btn-cargar-mas" onclick="cargarMasArchivos()">Cargar más</button>
+    </div>
+
+    <div id="lightbox">
+        <span class="cerrar" onclick="cerrarLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Foto ampliada" style="display:none;">
+        <iframe id="lightbox-video" src="" allow="autoplay" allowfullscreen style="display:none;"></iframe>
+    </div>
+
+    <script>
+        const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbyPwD_Uxww7sllHhKebb0UyM71ERVNep_VNlBqzIgAKEGPB_ZKXextdV0AnQ5-HB9fW-A/exec';
+        
+        // Variables globales para gestionar los datos
+        let todosLosArchivos = [];
+        let archivosFiltrados = [];
+        let pestanaActual = 'fotos';
+        let indiceCarga = 0;
+        const ITEMS_POR_PAGINA = 12; // Cuántos elementos cargan cada vez que das al botón
+
+        async function inicializarGaleria() {
+            try {
+                const respuesta = await fetch(URL_APPS_SCRIPT);
+                todosLosArchivos = await respuesta.json();
+                
+                document.getElementById('cargando').style.display = 'none';
+                document.getElementById('controles').style.display = 'flex';
+                
+                // Actualizar textos de los botones con la cantidad de archivos
+                const cantFotos = todosLosArchivos.filter(a => !a.esVideo).length;
+                const cantVideos = todosLosArchivos.filter(a => a.esVideo).length;
+                document.getElementById('tab-fotos').innerText = `Fotografías (${cantFotos})`;
+                document.getElementById('tab-videos').innerText = `Vídeos (${cantVideos})`;
+
+                // Cargar la pestaña por defecto
+                aplicarFiltros();
+            } catch (error) {
+                console.error("Error al cargar:", error);
+                document.getElementById('cargando').innerHTML = "<p style='color: #ef4444; font-weight: 600;'>Error de conexión. Intenta recargar la página.</p>";
+            }
+        }
+
+        function cambiarPestana(tipo) {
+            pestanaActual = tipo;
+            
+            // Cambiar estilos de los botones
+            document.getElementById('tab-fotos').classList.toggle('activo', tipo === 'fotos');
+            document.getElementById('tab-videos').classList.toggle('activo', tipo === 'videos');
+            
+            // Limpiar buscador y resetear
+            document.getElementById('buscador').value = '';
+            aplicarFiltros();
+        }
+
+        function filtrarPorBusqueda() {
+            aplicarFiltros(document.getElementById('buscador').value.toLowerCase());
+        }
+
+        function aplicarFiltros(textoBusqueda = '') {
+            // Filtrar por pestaña (foto o video)
+            let archivosBase = todosLosArchivos.filter(archivo => 
+                pestanaActual === 'videos' ? archivo.esVideo : !archivo.esVideo
+            );
+
+            // Filtrar por texto si hay búsqueda
+            if (textoBusqueda.trim() !== '') {
+                archivosBase = archivosBase.filter(archivo => 
+                    archivo.name.toLowerCase().includes(textoBusqueda)
+                );
+            }
+
+            archivosFiltrados = archivosBase;
+            
+            // Resetear la galería
+            document.getElementById('galeria').innerHTML = '';
+            indiceCarga = 0;
+            
+            cargarMasArchivos();
+        }
+
+        function cargarMasArchivos() {
+            const contenedor = document.getElementById('galeria');
+            const limiteVisual = Math.min(indiceCarga + ITEMS_POR_PAGINA, archivosFiltrados.length);
+
+            if (archivosFiltrados.length === 0) {
+                contenedor.innerHTML = `<div class="mensaje-vacio">No se encontraron archivos.</div>`;
+                document.getElementById('contenedor-cargar-mas').style.display = 'none';
+                return;
+            }
+
+            for (let i = indiceCarga; i < limiteVisual; i++) {
+                const archivo = archivosFiltrados[i];
+                const card = document.createElement('div');
+                card.className = 'foto-card';
+                // Añadimos un pequeño retraso a la animación para que aparezcan en cascada
+                card.style.animationDelay = `${(i % ITEMS_POR_PAGINA) * 0.05}s`;
+                
+                const img = document.createElement('img');
+                img.src = archivo.urlMiniatura; 
+                img.alt = archivo.name;
+                img.loading = 'lazy'; 
+                
+                if (archivo.esVideo) {
+                    const cartelVideo = document.createElement('div');
+                    cartelVideo.className = 'icono-video';
+                    cartelVideo.innerText = '▶ Vídeo';
+                    card.appendChild(cartelVideo);
+                }
+                
+                card.onclick = () => abrirLightbox(archivo.urlCompleta, archivo.esVideo);
+
+                const info = document.createElement('div');
+                info.className = 'foto-info';
+                info.innerText = archivo.name.split('.')[0]; 
+
+                card.appendChild(img);
+                card.appendChild(info);
+                contenedor.appendChild(card);
+            }
+
+            indiceCarga = limiteVisual;
+
+            // Mostrar u ocultar el botón de "Cargar más"
+            if (indiceCarga >= archivosFiltrados.length) {
+                document.getElementById('contenedor-cargar-mas').style.display = 'none';
+            } else {
+                document.getElementById('contenedor-cargar-mas').style.display = 'block';
+            }
+        }
+
+        function abrirLightbox(url, esVideo) {
+            const img = document.getElementById('lightbox-img');
+            const video = document.getElementById('lightbox-video');
+            const lightbox = document.getElementById('lightbox');
+            
+            if (esVideo) {
+                img.style.display = 'none';
+                video.src = url;
+                video.style.display = 'block';
+            } else {
+                video.style.display = 'none';
+                video.src = ""; 
+                img.src = url;
+                img.style.display = 'block';
+            }
+            
+            lightbox.classList.add('visible');
+        }
+
+        function cerrarLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('visible');
+            setTimeout(() => {
+                document.getElementById('lightbox-video').src = "";
+            }, 300); // Esperar a que acabe la transición para cortar el vídeo
+        }
+
+        // Arrancar la app
+        inicializarGaleria();
+    </script>
+</body>
+</html>
+
+¿Qué hace que este código sea superior?
+
+    Gestión de estado en JavaScript: Ahora descargamos el JSON completo al principio de forma invisible, lo guardamos en una variable llamada todosLosArchivos y el navegador se encarga de jugar con esos datos al instante, sin tener que volver a preguntar a Google.
+
+    Velocidad máxima: Al cargar solo de 12 en 12 archivos, el navegador no se satura renderizando tantas etiquetas de imagen a la vez, por lo que va fluir en ordenadores y teléfonos móviles sin ningún tirón.
+
+    Experiencia de Usuario (UX): Ahora te indica cuántas fotos y vídeos hay en total, puedes buscar, y el visor (lightbox) tiene transiciones css suaves (no aparece y desaparece de forma brusca).
