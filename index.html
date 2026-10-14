@@ -1,14 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Galería de Drive</title>
-    <!-- Importamos una fuente moderna de Google Fonts -->
-    <link href="https://script.google.com/macros/s/AKfycbwd9x9-re7_XTBWPSmRbOa2rjMZunpP2IrnB9AEr7YfeINuctJ_XgcC90k2pMqotUmXgQ/exec" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Variables de color para mantener un diseño consistente */
         :root {
             --bg-color: #f3f4f6;
             --text-color: #1f2937;
@@ -44,7 +43,6 @@
             margin-top: 5px;
         }
 
-        /* Diseño del icono de carga (Spinner) */
         .loader-container {
             display: flex;
             justify-content: center;
@@ -64,7 +62,6 @@
             100% { transform: rotate(360deg); } 
         }
         
-        /* Grid de la galería de fotos */
         #galeria {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -106,9 +103,8 @@
             text-overflow: ellipsis;
         }
 
-        /* Diseño del Lightbox (Foto ampliada) */
         #lightbox {
-            display: none; /* Oculto por defecto */
+            display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9);
@@ -144,20 +140,66 @@
         <p class="subtitle">Conectada directamente con Google Drive</p>
     </header>
 
-    <!-- Indicador de carga -->
     <div class="loader-container" id="cargando">
         <div class="loader"></div>
     </div>
 
-    <!-- Contenedor donde se inyectarán las fotos -->
     <div id="galeria"></div>
 
-    <!-- Lightbox oculto para ver fotos en grande -->
     <div id="lightbox" onclick="cerrarLightbox()">
         <span class="cerrar">&times;</span>
         <img id="lightbox-img" src="" alt="Foto ampliada">
     </div>
 
     <script>
-        // Aquí he montado tu ID dentro de la estructura de URL correcta
-        const URL_APPS_SCRIPT = '
+        // Tu nueva URL de Apps Script
+        const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbxchYF-xhibzd6kUlgOVqyYXR51HP7SEn5_KDVDlpMq2jwMEPJQwEK6WBMuGbI7Sev5XQ/exec';
+
+        async function cargarFotos() {
+            try {
+                const respuesta = await fetch(URL_APPS_SCRIPT);
+                const fotos = await respuesta.json();
+                
+                const contenedor = document.getElementById('galeria');
+                document.getElementById('cargando').style.display = 'none';
+
+                fotos.forEach(foto => {
+                    const card = document.createElement('div');
+                    card.className = 'foto-card';
+                    
+                    const img = document.createElement('img');
+                    // Usamos la miniatura ligera para la cuadrícula
+                    img.src = foto.urlMiniatura; 
+                    img.alt = foto.name;
+                    img.loading = 'lazy'; 
+                    
+                    // Al hacer click, le pasamos la URL en alta calidad al Lightbox
+                    card.onclick = () => abrirLightbox(foto.urlCompleta);
+
+                    const info = document.createElement('div');
+                    info.className = 'foto-info';
+                    info.innerText = foto.name.split('.')[0]; 
+
+                    card.appendChild(img);
+                    card.appendChild(info);
+                    contenedor.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Error al cargar las fotos:", error);
+                document.getElementById('cargando').innerHTML = "<p style='color: red; font-weight: bold;'>Hubo un error de conexión. Asegúrate de haber publicado la nueva versión del script.</p>";
+            }
+        }
+
+        function abrirLightbox(url) {
+            document.getElementById('lightbox-img').src = url;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function cerrarLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        cargarFotos();
+    </script>
+</body>
+</html>
