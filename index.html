@@ -4,59 +4,160 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Galería de Drive</title>
+    <!-- Importamos una fuente moderna de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* CSS básico para la galería */
-        body { font-family: sans-serif; text-align: center; }
+        /* Variables de color para mantener un diseño consistente */
+        :root {
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --accent: #3b82f6;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--card-bg);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        p.subtitle {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        /* Diseño del icono de carga (Spinner) */
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+        .loader {
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        /* Grid de la galería de fotos */
         #galeria {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 0 20px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .foto {
+
+        .foto-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .foto-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .foto-card img {
             width: 100%;
-            height: 250px;
+            height: 280px;
             object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            display: block;
         }
-        .foto:hover { transform: scale(1.05); }
+
+        .foto-info {
+            padding: 15px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #4b5563;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Diseño del Lightbox (Foto ampliada) */
+        #lightbox {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        #lightbox .cerrar {
+            position: absolute;
+            top: 20px; right: 30px;
+            color: white;
+            font-size: 50px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        #lightbox .cerrar:hover {
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
 
-    <h1>Fotos desde Google Drive</h1>
-    <p id="cargando">Cargando imágenes...</p>
+    <header>
+        <h1>Mi Galería Visual</h1>
+        <p class="subtitle">Conectada directamente con Google Drive</p>
+    </header>
+
+    <!-- Indicador de carga -->
+    <div class="loader-container" id="cargando">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Contenedor donde se inyectarán las fotos -->
     <div id="galeria"></div>
 
+    <!-- Lightbox oculto para ver fotos en grande -->
+    <div id="lightbox" onclick="cerrarLightbox()">
+        <span class="cerrar">&times;</span>
+        <img id="lightbox-img" src="" alt="Foto ampliada">
+    </div>
+
     <script>
-        // PEGA AQUÍ LA URL QUE COPIASTE EN EL PASO 3
-        const URL_APPS_SCRIPT = 'AQUI_PON_LA_URL_DE_TU_APLICACION_WEB';
-
-        async function cargarFotos() {
-            try {
-                const respuesta = await fetch(URL_APPS_SCRIPT);
-                const fotos = await respuesta.json();
-                
-                const contenedor = document.getElementById('galeria');
-                document.getElementById('cargando').style.display = 'none';
-
-                fotos.forEach(foto => {
-                    const img = document.createElement('img');
-                    img.src = foto.url;
-                    img.alt = foto.name;
-                    img.className = 'foto';
-                    contenedor.appendChild(img);
-                });
-            } catch (error) {
-                console.error("Error al cargar las fotos:", error);
-                document.getElementById('cargando').innerText = "Hubo un error al cargar las fotos.";
-            }
-        }
-
-        // Ejecutar al cargar la página
-        cargarFotos();
-    </script>
-</body>
-</html>
+        // Aquí he montado tu ID dentro de la estructura de URL correcta
+        const URL_APPS_SCRIPT = '
